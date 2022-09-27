@@ -6,18 +6,26 @@ let promo__title = document.querySelectorAll('.promo__title')
 let promo__descr = document.querySelectorAll('.promo__descr')
 let promo__ratings = document.querySelectorAll(".promo__ratings span")
 let search = document.querySelector('#search')
-
+let search_im = document.querySelector('#search')
 let ul = document.querySelector('.promo__interactive-list')
 
 let moviesArr = movies
 
+// let text = document.querySelector('.text')
+// let text1 = document.querySelector('.text1')
+// let text2 = document.querySelector('.text2')
+// let text3 = document.querySelector('.text3')
+// let text4 = document.querySelector('.text4')
+let rating = document.querySelector('.rating')
+let ratingActive = rating.querySelector('.rating_active')
 
 promoImg.forEach((img) => {
     img.remove(img)
 })
 
 
-search.onkeyup = () => {
+search_im.onclick = () => {
+    console.log('aa');
     let {value} = search
     value = value.toLowerCase().trim()
     
@@ -58,6 +66,8 @@ const reload = (arr) => {
         span.onclick = () => {
             showWindow(item)
             showMovie(item)
+
+
         }
         delet.onclick = () => {
             moviesArr = moviesArr.filter(film => film.ID !== item.ID)
@@ -92,10 +102,15 @@ const showMovie = (movie) => {
 
 const showWindow = (movie) => {
     // console.log(movie);
-    
+    // rating.innerHTML =  IMDb: ${item.imdbRating}
+    // promo__ratings[2].innerHTML = `IMDb: ${item.imdbRating}`
+    // promo__ratings[3].innerHTML =  `Кинопоиск: ${item.Metascore}`
+
+
+
     widow_right.style.background = `url(${movie.Poster}) center center/cover`
-    promo__ratings[2].innerHTML =  `IMDb: ${movie.imdbRating}`
-    promo__ratings[3].innerHTML =  `Кинопоиск: ${movie.Metascore}`
+    // promo__ratings[2].innerHTML =  `IMDb: ${movie.imdbRating}`
+    // promo__ratings[3].innerHTML =  `Кинопоиск: ${movie.Metascore}`
     promo__genre[1].innerHTML = movie.Genre
     promo__title[1].innerHTML = movie.Title
     promo__descr[1].innerHTML = movie.Plot
@@ -116,7 +131,7 @@ const showWindow = (movie) => {
         promo__ratings[2].style.opacity = '1'
         promo__ratings[3].style.opacity = '1'
     }, 900);
-
+    setRating(movie.imdbRating)
 }
 
 const closeMovie = () => {
@@ -133,6 +148,9 @@ const closeMovie = () => {
     promo__ratings[3].style.opacity = '0'
 }
 
-
+function setRating(ratingValue) {
+    let percent = (ratingValue / 10 * 100).toFixed(0); 
+    ratingActive.style.width = `${percent}%`
+}
 reload(moviesArr)
 
