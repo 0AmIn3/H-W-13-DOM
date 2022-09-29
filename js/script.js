@@ -162,6 +162,7 @@ function generateGenres(arr) {
     for (let item of arr) {
         let li = document.createElement('li')
         let a = document.createElement('a')
+        
         if (arr.indexOf(item) === 0) {
             a.classList.add('promo__menu-item_active')
         }
@@ -180,14 +181,15 @@ function generateGenres(arr) {
             li.firstChild.classList.add('promo__menu-item_active')
 
             let filtered = movies.filter(elem => {
-                let genre = elem.Genre.toLowerCase()
-                if (item.toLowerCase() === genre) {
+
+                if (item.toLowerCase() === elem.Genre.toLowerCase()) {
                     return elem
                 } else if (item.toLowerCase() === 'all') {
                     reload(movies)
                 }
             })
-            if (filtered.length > 0) reload(filtered)
+            if (filtered.length > 0){
+             reload(filtered)
         }
 
     }}
