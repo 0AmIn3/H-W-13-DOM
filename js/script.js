@@ -8,8 +8,12 @@ let promo__ratings = document.querySelectorAll(".promo__ratings span")
 let search = document.querySelector('#search')
 let search_im = document.querySelector('#search')
 let ul = document.querySelector('.promo__interactive-list')
+let genres_arr = ['All']
+let ganr = document.querySelector('.Ganr')
 
 let moviesArr = movies
+
+
 
 // let text = document.querySelector('.text')
 // let text1 = document.querySelector('.text1')
@@ -49,7 +53,7 @@ const reload = (arr) => {
 
     arr.forEach((item, index) =>{
         let span = document.createElement('span')
-        
+        genres_arr.push(item.Genre)
         let li = document.createElement('li')
         let delet = document.createElement('div')
         
@@ -152,5 +156,44 @@ function setRating(ratingValue) {
     let percent = (ratingValue / 10 * 100).toFixed(0); 
     ratingActive.style.width = `${percent}%`
 }
+function generateGenres(arr) {
+    ganr.innerHTML = ""
+
+    for (let item of arr) {
+        let li = document.createElement('li')
+        let a = document.createElement('a')
+        if (arr.indexOf(item) === 0) {
+            a.classList.add('promo__menu-item_active')
+        }
+
+        a.classList.add('promo__menu-item')
+        a.href = "#"
+        a.innerHTML = item
+
+        ganr.append(li)
+        li.append(a)
+
+
+        li.onclick = () => {
+            ganr.childNodes.forEach(elem => elem.firstChild.classList.remove('promo__menu-item_active'))
+
+            li.firstChild.classList.add('promo__menu-item_active')
+
+            let filtered = movies.filter(elem => {
+                let genre = elem.Genre.toLowerCase()
+                if (item.toLowerCase() === genre) {
+                    return elem
+                } else if (item.toLowerCase() === 'all') {
+                    reload(movies)
+                }
+            })
+            if (filtered.length > 0) reload(filtered)
+        }
+
+    }}
+
+
 reload(moviesArr)
+genres_arr = [...new Set(genres_arr)]
+generateGenres(genres_arr)
 
